@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Дашборд{% endblock %}
+{% block content %}
+<h1>Дашборд</h1>
+<div class="grid">
+  <article>
+    <hgroup><h2>{{ sent_today }}</h2><p>Отправлено сегодня</p></hgroup>
+  </article>
+  <article>
+    <hgroup><h2>{{ replied }}</h2><p>Ответов всего</p></hgroup>
+  </article>
+  <article>
+    <hgroup><h2>{{ bounced }}</h2><p>Bounce</p></hgroup>
+  </article>
+  <article>
+    <hgroup><h2>{{ total_companies }}</h2><p>Компаний в базе</p></hgroup>
+  </article>
+</div>
+<h2>Последние 10 событий</h2>
+<table>
+  <thead>
+    <tr><th>ID</th><th>Статус</th><th>ID письма</th><th>Время</th></tr>
+  </thead>
+  <tbody>
+    {% for s in recent_sends %}
+    <tr>
+      <td>{{ s.id }}</td>
+      <td><mark>{{ s.status }}</mark></td>
+      <td>{{ s.email_id }}</td>
+      <td>{{ s.queued_at.strftime('%d.%m %H:%M') if s.queued_at else '—' }}</td>
+    </tr>
+    {% endfor %}
+    {% if not recent_sends %}
+    <tr><td colspan="4">Отправок ещё не было</td></tr>
+    {% endif %}
+  </tbody>
+</table>
+{% endblock %}

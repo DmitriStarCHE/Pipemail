@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Рассылка труб{% endblock %}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul><li><strong>🔩 Рассылка труб</strong></li></ul>
+    <ul>
+      <li><a href="/">Дашборд</a></li>
+      <li><a href="/companies">Компании</a></li>
+      <li><a href="/campaigns">Кампании</a></li>
+      <li><a href="/sends">Отправки</a></li>
+    </ul>
+  </nav>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

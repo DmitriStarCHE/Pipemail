@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Компании{% endblock %}
+{% block content %}
+<h1>Компании</h1>
+<form hx-get="/companies" hx-target="#companies-table" hx-push-url="true">
+  <div class="grid">
+    <input name="segment" placeholder="Сегмент (trader, end_user, ...)" value="{{ segment }}">
+    <input name="region" placeholder="Регион" value="{{ region }}">
+    <select name="has_email">
+      <option value="">Все компании</option>
+      <option value="1" {% if has_email == '1' %}selected{% endif %}>Только с email</option>
+    </select>
+    <button type="submit">Найти</button>
+  </div>
+</form>
+<div id="companies-table">
+<table>
+  <thead>
+    <tr><th>ID</th><th>Название</th><th>Сегмент</th><th>Регион</th><th>Домен</th></tr>
+  </thead>
+  <tbody>
+    {% for c in companies %}
+    <tr>
+      <td><a href="/companies/{{ c.id }}">{{ c.id }}</a></td>
+      <td><a href="/companies/{{ c.id }}">{{ c.name }}</a></td>
+      <td>{{ c.segment or '—' }}</td>
+      <td>{{ c.region or '—' }}</td>
+      <td>{{ c.domain or '—' }}</td>
+    </tr>
+    {% endfor %}
+    {% if not companies %}
+    <tr><td colspan="5">Компании не найдены</td></tr>
+    {% endif %}
+  </tbody>
+</table>
+<div class="grid">
+  {% if page > 1 %}
+  <a href="?page={{ page - 1 }}&segment={{ segment }}&region={{ region }}&has_email={{ has_email }}" role="button" class="outline">← Назад</a>
+  {% endif %}
+  {% if companies | length == page_size %}
+  <a href="?page={{ page + 1 }}&segment={{ segment }}&region={{ region }}&has_email={{ has_email }}" role="button" class="outline">Вперёд →</a>
+  {% endif %}
+</div>
+</div>
+{% endblock %}

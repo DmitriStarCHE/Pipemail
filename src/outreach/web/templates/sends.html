@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Отправки{% endblock %}
+{% block content %}
+<h1>Отправки</h1>
+<form hx-get="/sends" hx-target="#sends-table" hx-push-url="true">
+  <div class="grid">
+    <select name="status">
+      <option value="">Все статусы</option>
+      <option value="sent" {% if status=='sent' %}selected{% endif %}>Отправлено</option>
+      <option value="replied" {% if status=='replied' %}selected{% endif %}>Ответили</option>
+      <option value="bounced" {% if status=='bounced' %}selected{% endif %}>Bounce</option>
+      <option value="failed" {% if status=='failed' %}selected{% endif %}>Ошибка</option>
+      <option value="unsubscribed" {% if status=='unsubscribed' %}selected{% endif %}>Отписались</option>
+    </select>
+    <button type="submit">Фильтр</button>
+  </div>
+</form>
+<div id="sends-table">
+<table>
+  <thead>
+    <tr><th>ID</th><th>Кампания</th><th>Статус</th><th>Тема</th><th>Отправлено</th><th>Ответ</th></tr>
+  </thead>
+  <tbody>
+    {% for s in sends %}
+    <tr>
+      <td><a href="/companies/{{ s.company_id }}">{{ s.id }}</a></td>
+      <td>{{ s.campaign_id }}</td>
+      <td>{{ s.status }}</td>
+      <td>{{ s.subject_used[:50] }}{% if s.subject_used | length > 50 %}…{% endif %}</td>
+      <td>{{ s.sent_at.strftime('%d.%m %H:%M') if s.sent_at else '—' }}</td>
+      <td>{{ s.replied_at.strftime('%d.%m %H:%M') if s.replied_at else '—' }}</td>
+    </tr>
+    {% endfor %}
+    {% if not sends %}<tr><td colspan="6">Отправок нет</td></tr>{% endif %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

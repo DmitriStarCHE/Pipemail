@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}{{ company.name }}{% endblock %}
+{% block content %}
+<h1>{{ company.name }}</h1>
+<a href="/companies" role="button" class="outline">← Назад</a>
+<dl>
+  <dt>ИНН</dt><dd>{{ company.inn or '—' }}</dd>
+  <dt>Сегмент</dt><dd>{{ company.segment or '—' }}</dd>
+  <dt>Регион</dt><dd>{{ company.region or '—' }}</dd>
+  <dt>Домен</dt><dd>{% if company.domain %}<a href="https://{{ company.domain }}" target="_blank">{{ company.domain }}</a>{% else %}—{% endif %}</dd>
+  <dt>Источники</dt><dd>{{ company.sources | join(', ') if company.sources else '—' }}</dd>
+  <dt>Продукты</dt><dd>{{ company.products | join(', ') if company.products else '—' }}</dd>
+  <dt>Классифицирован</dt><dd>{{ company.classified_at.strftime('%d.%m.%Y %H:%M') if company.classified_at else '—' }}</dd>
+</dl>
+<h2>Email-адреса ({{ emails | length }})</h2>
+<table>
+  <thead><tr><th>Email</th><th>MX</th><th>Роль</th><th>Бесплатный</th><th>Приоритет</th><th>Отписался</th><th>Bounce</th></tr></thead>
+  <tbody>
+    {% for e in emails %}
+    <tr>
+      <td>{{ e.email }}</td>
+      <td>{{ '✓' if e.mx_valid else '✗' if e.mx_valid is not none else '?' }}</td>
+      <td>{{ '✓' if e.is_role else '' }}</td>
+      <td>{{ '✓' if e.is_free_provider else '' }}</td>
+      <td>{{ e.priority }}</td>
+      <td>{{ '✓' if e.unsubscribed else '' }}</td>
+      <td>{{ '✓' if e.bounced else '' }}</td>
+    </tr>
+    {% endfor %}
+    {% if not emails %}<tr><td colspan="7">Email не найдены</td></tr>{% endif %}
+  </tbody>
+</table>
+<h2>История отправок</h2>
+<table>
+  <thead><tr><th>Кампания</th><th>Статус</th><th>Тема</th><th>Отправлено</th></tr></thead>
+  <tbody>
+    {% for s in sends %}
+    <tr>
+      <td>{{ s.campaign_id }}</td>
+      <td>{{ s.status }}</td>
+      <td>{{ s.subject_used[:60] }}{% if s.subject_used | length > 60 %}…{% endif %}</td>
+      <td>{{ s.sent_at.strftime('%d.%m.%Y %H:%M') if s.sent_at else '—' }}</td>
+    </tr>
+    {% endfor %}
+    {% if not sends %}<tr><td colspan="4">Отправок ещё не было</td></tr>{% endif %}
+  </tbody>
+</table>
+{% endblock %}
