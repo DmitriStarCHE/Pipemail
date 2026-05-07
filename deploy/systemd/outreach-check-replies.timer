@@ -1,0 +1,7 @@
+[Unit]
+Description=Проверка IMAP каждый час
+[Timer]
+OnCalendar=*:00
+Persistent=true
+[Install]
+WantedBy=timers.target

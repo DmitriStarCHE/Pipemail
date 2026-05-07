@@ -1,0 +1,7 @@
+[Unit]
+Description=Запуск отправки писем в рабочие дни в 10:00
+[Timer]
+OnCalendar=Mon..Fri 10:00
+Persistent=true
+[Install]
+WantedBy=timers.target

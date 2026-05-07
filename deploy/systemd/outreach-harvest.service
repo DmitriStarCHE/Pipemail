@@ -1,0 +1,9 @@
+[Unit]
+Description=Outreach — сбор email-адресов
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/project/pipemail
+ExecStart=%h/project/pipemail/.venv/bin/outreach harvest --limit 50
+EnvironmentFile=%h/project/pipemail/.env
