@@ -1,6 +1,7 @@
 import json
 
 import httpx
+import ollama
 import structlog
 
 from outreach.classify.prompts import SYSTEM, USER_TEMPLATE
@@ -20,7 +21,6 @@ _MAX_TEXT = 4000
 async def classify_company(company: Company) -> tuple[str, list[str]]:
     """Return (segment, products) for a company. Falls back to ('unknown', [])."""
     settings = get_settings()
-    import ollama
 
     text = _get_company_text(company)
     if not text:
@@ -38,7 +38,7 @@ async def classify_company(company: Company) -> tuple[str, list[str]]:
             ],
             format="json",
         )
-        raw = response.message.content
+        raw: str = response.message.content or ""
         return _parse_response(raw)
     except Exception as exc:
         log.warning("classify.ollama_error", error=str(exc), company=company.name)
@@ -53,7 +53,8 @@ async def classify_company(company: Company) -> tuple[str, list[str]]:
                 ],
                 format="json",
             )
-            return _parse_response(response.message.content)
+            raw = response.message.content or ""
+            return _parse_response(raw)
         except Exception:
             log.error("classify.failed", company=company.name)
             return "unknown", []

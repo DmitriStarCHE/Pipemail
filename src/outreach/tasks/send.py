@@ -4,7 +4,7 @@ from outreach.db.models import Campaign
 from outreach.db.session import get_session_factory
 
 
-async def task_send(ctx: dict) -> None:
+async def task_send(ctx: dict[str, object]) -> None:
     from outreach.cli import _send
 
     factory = get_session_factory()

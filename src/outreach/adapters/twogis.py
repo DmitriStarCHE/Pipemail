@@ -1,5 +1,6 @@
 import asyncio
 from collections.abc import AsyncIterator
+from typing import Any
 from urllib.parse import urlparse
 
 import httpx
@@ -62,7 +63,7 @@ class TwoGISAdapter:
                 page += 1
                 await asyncio.sleep(0.5)
 
-    def _parse_item(self, item: dict) -> RawCompanyDTO | None:
+    def _parse_item(self, item: dict[str, Any]) -> RawCompanyDTO | None:
         org = item.get("org") or item.get("name_ex")
         if not org:
             return None
@@ -79,7 +80,7 @@ class TwoGISAdapter:
                 if ctype == "website" and not domain:
                     parsed = urlparse(value if "://" in value else f"https://{value}")
                     domain = parsed.netloc or parsed.path
-                    domain = domain.lstrip("www.").rstrip("/").split("/")[0] or None
+                    domain = domain.removeprefix("www.").rstrip("/").split("/")[0] or None
                 elif ctype == "phone" and not phone:
                     phone = value
 

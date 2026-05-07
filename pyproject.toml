@@ -56,6 +56,9 @@ src = ["src"]
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "C4"]
 
+[tool.ruff.lint.per-file-ignores]
+"src/outreach/classify/prompts.py" = ["E501"]
+
 [tool.mypy]
 strict = true
 python_version = "3.12"

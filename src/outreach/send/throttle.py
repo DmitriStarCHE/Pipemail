@@ -1,5 +1,5 @@
 import random
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -26,7 +26,7 @@ async def count_sent_today(campaign_id: int, session: AsyncSession) -> int:
     tz = zoneinfo.ZoneInfo(settings.timezone)
     now = datetime.now(tz)
     start_of_day = now.replace(hour=0, minute=0, second=0, microsecond=0)
-    start_utc = start_of_day.astimezone(timezone.utc)
+    start_utc = start_of_day.astimezone(UTC)
 
     result = await session.execute(
         select(func.count(Send.id))

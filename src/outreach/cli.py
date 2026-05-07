@@ -1,5 +1,5 @@
 import asyncio
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Annotated
 
 import structlog
@@ -55,7 +55,8 @@ async def _discover(
         typer.echo(f"Источник '{source}' не поддерживается в v1", err=True)
         raise typer.Exit(1)
 
-    queries = [query] if query else (settings.twogis_default_categories if all_defaults else ["трубы стальные"])
+    default_query = settings.twogis_default_categories if all_defaults else ["трубы стальные"]
+    queries = [query] if query else default_query
     regions_list = [region] if region else (
         [str(r) for r in settings.twogis_default_regions] if all_defaults else [""]
     )
@@ -199,7 +200,7 @@ async def _classify(limit: int, company_id: int | None) -> None:
             segment, products = await classify_company(company)
             company.segment = segment
             company.products = products
-            company.classified_at = datetime.now(timezone.utc)
+            company.classified_at = datetime.now(UTC)
 
         await session.commit()
 
@@ -332,7 +333,7 @@ async def _send(campaign_id: int, dry_run: bool) -> None:
                 error=send_result.error,
             )
             if status == "sent":
-                send_row.sent_at = datetime.now(timezone.utc)
+                send_row.sent_at = datetime.now(UTC)
             session.add(send_row)
             await session.commit()
             sent += 1

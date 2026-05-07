@@ -22,4 +22,4 @@ class EisAdapter:
         yield
 
 
-_: Adapter = EisAdapter()
+_: Adapter = EisAdapter()  # type: ignore[assignment]

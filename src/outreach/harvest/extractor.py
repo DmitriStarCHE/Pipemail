@@ -67,7 +67,7 @@ def extract_emails(html: str, company_domain: str) -> list[EmailResult]:
 
     # If all results have the same priority (likely duplicates/junk),
     # limit to 3. Otherwise return all (different quality levels).
-    priorities = set(r.priority for r in sorted_results)
+    priorities = {r.priority for r in sorted_results}
     if len(priorities) == 1:
         return sorted_results[:3]
     else:

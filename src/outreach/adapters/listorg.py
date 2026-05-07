@@ -21,4 +21,4 @@ class ListOrgAdapter:
         yield  # make type checkers happy — unreachable
 
 
-_: Adapter = ListOrgAdapter()
+_: Adapter = ListOrgAdapter()  # type: ignore[assignment]

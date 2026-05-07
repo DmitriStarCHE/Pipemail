@@ -1,4 +1,4 @@
-from datetime import date, datetime, timezone
+from datetime import UTC, datetime
 
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
@@ -20,7 +20,7 @@ app.include_router(sends.router)
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request) -> HTMLResponse:
     factory = get_session_factory()
-    today = datetime.now(timezone.utc).date()
+    today = datetime.now(UTC).date()
 
     async with factory() as session:
         sent_today = (await session.execute(
@@ -45,8 +45,7 @@ async def index(request: Request) -> HTMLResponse:
             select(Send).order_by(Send.queued_at.desc()).limit(10)
         )).scalars().all()
 
-    return templates.TemplateResponse("index.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "index.html", {
         "sent_today": sent_today,
         "replied": replied,
         "bounced": bounced,

@@ -6,7 +6,6 @@ import pytest
 
 from outreach.adapters.twogis import TwoGISAdapter
 
-
 FIXTURE = Path(__file__).parent / "fixtures" / "twogis_response.json"
 
 

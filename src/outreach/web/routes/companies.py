@@ -34,8 +34,7 @@ async def companies_list(
             q.offset((page - 1) * page_size).limit(page_size)
         )).scalars().all()
 
-    return templates.TemplateResponse("companies.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "companies.html", {
         "companies": companies,
         "page": page,
         "page_size": page_size,
@@ -63,8 +62,7 @@ async def company_detail(request: Request, company_id: int) -> HTMLResponse:
             .order_by(Send.queued_at.desc())
         )).scalars().all()
 
-    return templates.TemplateResponse("company_detail.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "company_detail.html", {
         "company": company,
         "emails": emails,
         "sends": sends,

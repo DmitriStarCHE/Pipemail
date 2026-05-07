@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from outreach.send.templates import render_template, TemplateError
+from outreach.send.templates import TemplateError, render_template
 
 
 @pytest.fixture()

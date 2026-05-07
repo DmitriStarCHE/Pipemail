@@ -31,8 +31,7 @@ async def sends_list(
             q.offset((page - 1) * page_size).limit(page_size)
         )).scalars().all()
 
-    return templates.TemplateResponse("sends.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "sends.html", {
         "sends": sends,
         "status": status,
         "campaign_id": campaign_id,

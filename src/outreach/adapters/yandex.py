@@ -22,4 +22,4 @@ class YandexAdapter:
         yield
 
 
-_: Adapter = YandexAdapter()
+_: Adapter = YandexAdapter()  # type: ignore[assignment]

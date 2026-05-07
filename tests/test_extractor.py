@@ -1,4 +1,4 @@
-from outreach.harvest.extractor import extract_emails, EmailResult
+from outreach.harvest.extractor import extract_emails
 
 SAMPLE_HTML = """
 <html><body>
@@ -61,13 +61,13 @@ def test_role_email_flagged() -> None:
 def test_deobfuscates_sobaka() -> None:
     html = "<p>contact[собака]company.ru</p>"
     results = extract_emails(html, "company.ru")
-    assert any("contact@company.ru" == r.email for r in results)
+    assert any(r.email == "contact@company.ru" for r in results)
 
 
 def test_deobfuscates_paren_at() -> None:
     html = "<p>info(at)firm.ru</p>"
     results = extract_emails(html, "firm.ru")
-    assert any("info@firm.ru" == r.email for r in results)
+    assert any(r.email == "info@firm.ru" for r in results)
 
 
 def test_drops_webmaster() -> None:

@@ -15,8 +15,7 @@ async def campaigns_list(request: Request) -> HTMLResponse:
     factory = get_session_factory()
     async with factory() as session:
         campaigns = (await session.execute(select(Campaign))).scalars().all()
-    return templates.TemplateResponse("campaigns.html", {
-        "request": request,
+    return templates.TemplateResponse(request, "campaigns.html", {
         "campaigns": campaigns,
     })
 

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from jinja2 import Environment, FileSystemLoader, StrictUndefined, TemplateNotFound
+from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
 from outreach.db.models import Company
 

@@ -1,5 +1,5 @@
 import re
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import structlog
 from imap_tools import AND, MailBox, MailMessage
@@ -71,8 +71,8 @@ async def poll_inbox() -> int:
 
 async def _process_message(msg: MailMessage) -> None:
     factory = get_session_factory()
-    in_reply_to = (msg.headers.get("in-reply-to") or [""])[0]
-    references_raw = (msg.headers.get("references") or [""])[0]
+    in_reply_to = (msg.headers.get("in-reply-to") or [""])[0]  # type: ignore[no-untyped-call]
+    references_raw = (msg.headers.get("references") or [""])[0]  # type: ignore[no-untyped-call]
     sender = msg.from_ or ""
     body = msg.text or ""
 
@@ -112,7 +112,7 @@ async def _process_message(msg: MailMessage) -> None:
                     email_row.unsubscribed = True
             else:
                 matched_send.status = "replied"
-                matched_send.replied_at = datetime.now(timezone.utc)
+                matched_send.replied_at = datetime.now(UTC)
 
             await session.commit()
             log.info("imap.processed", sender=sender, status=matched_send.status)

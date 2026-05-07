@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from typing import Any
 
 from sqlalchemy import (
     ForeignKey,
@@ -30,7 +31,7 @@ class RawCompany(Base):
     phone: Mapped[str | None] = mapped_column(String(64))
     address: Mapped[str | None] = mapped_column(Text)
     region: Mapped[str | None] = mapped_column(String(128))
-    raw: Mapped[dict] = mapped_column(JSONB, default=dict)
+    raw: Mapped[dict[str, Any]] = mapped_column(JSONB, default=dict)
     fetched_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
@@ -43,10 +44,10 @@ class Company(Base):
     domain: Mapped[str | None] = mapped_column(String(256), unique=True, index=True)
     region: Mapped[str | None] = mapped_column(String(128))
     segment: Mapped[str | None] = mapped_column(String(32), index=True)
-    products: Mapped[list] = mapped_column(JSONB, default=list)
+    products: Mapped[list[str]] = mapped_column(JSONB, default=list)
     classified_at: Mapped[datetime | None] = mapped_column(nullable=True)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
-    sources: Mapped[list] = mapped_column(JSONB, default=list)
+    sources: Mapped[list[str]] = mapped_column(JSONB, default=list)
 
 
 class Email(Base):

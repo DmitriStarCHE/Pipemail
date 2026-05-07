@@ -1,5 +1,5 @@
 from collections.abc import AsyncIterator
-from typing import Protocol
+from typing import Any, Protocol
 
 from pydantic import BaseModel
 
@@ -13,7 +13,7 @@ class RawCompanyDTO(BaseModel):
     phone: str | None = None
     address: str | None = None
     region: str | None = None
-    raw: dict = {}
+    raw: dict[str, Any] = {}
 
 
 class Adapter(Protocol):
