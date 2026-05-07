@@ -1,0 +1,33 @@
+{
+  "meta": {"api_version": "3.0", "code": 200},
+  "result": {
+    "total": 2,
+    "items": [
+      {
+        "id": "70000001041681880",
+        "type": "org",
+        "name_ex": {"primary": "МеталлТрейд"},
+        "org": {"name": "МеталлТрейд"},
+        "contact_groups": [
+          {
+            "contacts": [
+              {"type": "phone", "value": "+7 (351) 555-01-01"},
+              {"type": "website", "value": "http://metal-trade.ru/"}
+            ]
+          }
+        ],
+        "adm_div": [{"type": "city", "name": "Челябинск"}],
+        "address": {"name": "ул. Труда, 90, Челябинск"}
+      },
+      {
+        "id": "70000001099999999",
+        "type": "org",
+        "name_ex": {"primary": "СтальПром"},
+        "org": {"name": "СтальПром"},
+        "contact_groups": [],
+        "adm_div": [{"type": "city", "name": "Екатеринбург"}],
+        "address": {"name": "пр. Ленина, 1, Екатеринбург"}
+      }
+    ]
+  }
+}
