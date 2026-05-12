@@ -1,3 +1,5 @@
+from typing import Literal
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -8,6 +10,7 @@ class Settings(BaseSettings):
     redis_url: str = "redis://localhost:6379"
 
     twogis_api_key: str = ""
+    yandex_geo_key: str = ""
 
     smtp_host: str = "smtp.mail.ru"
     smtp_port: int = 465
@@ -24,6 +27,9 @@ class Settings(BaseSettings):
 
     ollama_url: str = "http://localhost:11434"
     llm_model: str = "qwen2.5:7b-instruct-q4_K_M"
+    llm_backend: Literal["ollama", "openai"] = "ollama"
+    openai_api_key: str = ""
+    openai_base_url: str = "https://api.openai.com/v1"
 
     daily_send_limit: int = 100
     work_hours_start: int = 9

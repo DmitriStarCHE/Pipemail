@@ -314,13 +314,13 @@ async def _send(campaign_id: int, dry_run: bool) -> None:
 
         sent = 0
         for company, email in rows:
-            subject, body = render_template(campaign.template_key, company)
+            subject, body, is_html = render_template(campaign.template_key, company)
             if dry_run:
                 typer.echo(f"[dry-run] → {email.email} | {subject}")
                 continue
 
             await asyncio.sleep(send_delay_seconds())
-            send_result = await send_email(email.email, subject, body)
+            send_result = await send_email(email.email, subject, body, is_html=is_html)
             status = "sent" if send_result.ok else "failed"
 
             send_row = Send(
